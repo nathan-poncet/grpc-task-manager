@@ -6,6 +6,7 @@ import { RaceController } from './race.controller';
 import { AuthModule } from 'src/auth/auth.module';
 import { UserModule } from 'src/user/user.module';
 import { CarModule } from 'src/car/car.module';
+import { RaceParticipationController } from './race.participation.controller';
 
 @Module({
   imports: [
@@ -15,6 +16,6 @@ import { CarModule } from 'src/car/car.module';
     CarModule,
   ],
   providers: [RaceService],
-  controllers: [RaceController],
+  controllers: [RaceController, RaceParticipationController],
 })
 export class RaceModule {}

@@ -21,7 +21,7 @@ import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
 import { Roles } from 'src/auth/role.decorator';
 import { UserRole } from 'src/stubs/user/v1alpha/message';
-import { UserService } from "../user/user.service";
+import { UserService } from '../user/user.service';
 import { GRPCUser } from 'src/auth/user.decorator';
 
 @Controller('race')
@@ -62,9 +62,9 @@ export class RaceController {
   @Roles(UserRole.USER_ROLE_ADMIN)
   @GrpcMethod('RaceService')
   async CreateRace(
-     @Payload() request: CreateRaceRequest,
-     @Headers() headers,
-     @GRPCUser() user,
+    @Payload() request: CreateRaceRequest,
+    @Headers() headers,
+    @GRPCUser() user,
   ): Promise<CreateRaceResponse> {
     try {
       await this.validateDto(request, CreateRaceDto);
@@ -75,8 +75,8 @@ export class RaceController {
 
       // Verifiy user exists
       const fetchedUser = await this.userService.findUser(
-          { id: user.id },
-          headers,
+        { id: user.id },
+        headers,
       );
 
       if (!fetchedUser) {
@@ -100,9 +100,9 @@ export class RaceController {
   @Roles(UserRole.USER_ROLE_ADMIN)
   @GrpcMethod('RaceService')
   async UpdateRace(
-      @Payload() request: UpdateRaceRequest,
-      @Headers() headers,
-      @GRPCUser() user,
+    @Payload() request: UpdateRaceRequest,
+    @Headers() headers,
+    @GRPCUser() user,
   ): Promise<UpdateRaceResponse> {
     try {
       const nRace = {
@@ -115,8 +115,8 @@ export class RaceController {
 
       // Verifiy user exists
       const fetchedUser = await this.userService.findUser(
-          { id: user.id },
-          headers,
+        { id: user.id },
+        headers,
       );
 
       if (!fetchedUser) {
@@ -138,15 +138,15 @@ export class RaceController {
   @Roles(UserRole.USER_ROLE_ADMIN)
   @GrpcMethod('RaceService')
   async DeleteRace(
-      @Payload() request: DeleteRaceRequest,
-      @Headers() headers,
-      @GRPCUser() user,
+    @Payload() request: DeleteRaceRequest,
+    @Headers() headers,
+    @GRPCUser() user,
   ): Promise<DeleteRaceResponse> {
     try {
       // Verifiy user exists
       const fetchedUser = await this.userService.findUser(
-          { id: user.id },
-          headers,
+        { id: user.id },
+        headers,
       );
 
       if (!fetchedUser) {
