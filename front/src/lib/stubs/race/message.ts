@@ -28,18 +28,14 @@ export interface Race {
      */
     date: string;
     /**
-     * @generated from protobuf field: repeated race.Participant participants = 4;
+     * @generated from protobuf field: repeated race.Participation participations = 4;
      */
-    participants: Participant[];
+    participations: Participation[];
 }
 /**
- * @generated from protobuf message race.Participant
+ * @generated from protobuf message race.Participation
  */
-export interface Participant {
-    /**
-     * @generated from protobuf field: string driver_id = 1;
-     */
-    driverId: string;
+export interface Participation {
     /**
      * @generated from protobuf field: string car_id = 2;
      */
@@ -52,11 +48,11 @@ class Race$Type extends MessageType<Race> {
             { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "date", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "participants", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Participant }
+            { no: 4, name: "participations", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Participation }
         ]);
     }
     create(value?: PartialMessage<Race>): Race {
-        const message = { id: "", name: "", date: "", participants: [] };
+        const message = { id: "", name: "", date: "", participations: [] };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<Race>(this, message, value);
@@ -76,8 +72,8 @@ class Race$Type extends MessageType<Race> {
                 case /* string date */ 3:
                     message.date = reader.string();
                     break;
-                case /* repeated race.Participant participants */ 4:
-                    message.participants.push(Participant.internalBinaryRead(reader, reader.uint32(), options));
+                case /* repeated race.Participation participations */ 4:
+                    message.participations.push(Participation.internalBinaryRead(reader, reader.uint32(), options));
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -100,9 +96,9 @@ class Race$Type extends MessageType<Race> {
         /* string date = 3; */
         if (message.date !== "")
             writer.tag(3, WireType.LengthDelimited).string(message.date);
-        /* repeated race.Participant participants = 4; */
-        for (let i = 0; i < message.participants.length; i++)
-            Participant.internalBinaryWrite(message.participants[i], writer.tag(4, WireType.LengthDelimited).fork(), options).join();
+        /* repeated race.Participation participations = 4; */
+        for (let i = 0; i < message.participations.length; i++)
+            Participation.internalBinaryWrite(message.participations[i], writer.tag(4, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -114,28 +110,24 @@ class Race$Type extends MessageType<Race> {
  */
 export const Race = new Race$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class Participant$Type extends MessageType<Participant> {
+class Participation$Type extends MessageType<Participation> {
     constructor() {
-        super("race.Participant", [
-            { no: 1, name: "driver_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+        super("race.Participation", [
             { no: 2, name: "car_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
-    create(value?: PartialMessage<Participant>): Participant {
-        const message = { driverId: "", carId: "" };
+    create(value?: PartialMessage<Participation>): Participation {
+        const message = { carId: "" };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
-            reflectionMergePartial<Participant>(this, message, value);
+            reflectionMergePartial<Participation>(this, message, value);
         return message;
     }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: Participant): Participant {
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: Participation): Participation {
         let message = target ?? this.create(), end = reader.pos + length;
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* string driver_id */ 1:
-                    message.driverId = reader.string();
-                    break;
                 case /* string car_id */ 2:
                     message.carId = reader.string();
                     break;
@@ -150,10 +142,7 @@ class Participant$Type extends MessageType<Participant> {
         }
         return message;
     }
-    internalBinaryWrite(message: Participant, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* string driver_id = 1; */
-        if (message.driverId !== "")
-            writer.tag(1, WireType.LengthDelimited).string(message.driverId);
+    internalBinaryWrite(message: Participation, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
         /* string car_id = 2; */
         if (message.carId !== "")
             writer.tag(2, WireType.LengthDelimited).string(message.carId);
@@ -164,6 +153,6 @@ class Participant$Type extends MessageType<Participant> {
     }
 }
 /**
- * @generated MessageType for protobuf message race.Participant
+ * @generated MessageType for protobuf message race.Participation
  */
-export const Participant = new Participant$Type();
+export const Participation = new Participation$Type();

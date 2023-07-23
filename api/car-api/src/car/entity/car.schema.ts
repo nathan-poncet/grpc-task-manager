@@ -6,7 +6,7 @@ export type CarDocument = HydratedDocument<Car>;
 @Schema()
 export class Car {
   @Prop({ required: true })
-  driver_id: string;
+  owner_id: string;
 
   @Prop({ required: true })
   brand: string;
@@ -17,6 +17,6 @@ export class Car {
 
 const CarSchema = SchemaFactory.createForClass(Car);
 
-CarSchema.index({ driver_id: 1, brand: 1, model: 1 }, { unique: true });
+CarSchema.index({ owner_id: 1, brand: 1, model: 1 }, { unique: true });
 
 export { CarSchema };

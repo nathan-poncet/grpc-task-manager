@@ -4,7 +4,7 @@ package car;
 
 message Car {
   string id = 1;
-  string driver_id = 2;
+  string owner_id = 2;
   string brand = 3;
   string model = 4;
 }

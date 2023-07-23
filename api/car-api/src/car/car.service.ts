@@ -12,7 +12,7 @@ export class CarService {
   toCarPb(car: Partial<CarDocument>): CarPb {
     return {
       id: car._id.toString(),
-      driverId: car.driver_id,
+      ownerId: car.owner_id,
       brand: car.brand,
       model: car.model,
     };
@@ -43,11 +43,11 @@ export class CarService {
 
   async updateCar(
     id: string,
-    driver_id: number,
+    owner_id: number,
     car: UpdateCarDto,
   ): Promise<Car> {
     const carUpdated = await this.carModel.findOneAndUpdate(
-      { id, driver_id },
+      { id, owner_id },
       car,
     );
 
@@ -58,8 +58,8 @@ export class CarService {
     return carUpdated;
   }
 
-  async deleteCar(id: string, driver_id: number) {
-    const car = await this.carModel.findOneAndDelete({ id, driver_id });
+  async deleteCar(id: string, owner_id: number) {
+    const car = await this.carModel.findOneAndDelete({ id, owner_id });
 
     if (!car) {
       throw new Error(`car with name ${id} not found`);

@@ -62,7 +62,7 @@ const envSchema = Joi.object({
     ]),
     JwtModule.register({
       secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '5m' },
+      signOptions: { expiresIn: '20m' },
     }),
     RefreshTokenModule,
     HealthModule,

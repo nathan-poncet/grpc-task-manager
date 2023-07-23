@@ -64,7 +64,6 @@ export interface DeleteRaceResponse {
 
 export interface SubscribeRaceParticipationRequest {
   id?: string | undefined;
-  userId?: string | undefined;
   carId?: string | undefined;
 }
 
@@ -74,7 +73,7 @@ export interface SubscribeRaceParticipationResponse {
 
 export interface UnSubscribeRaceParticipationRequest {
   id?: string | undefined;
-  userId?: string | undefined;
+  carId?: string | undefined;
 }
 
 export interface UnSubscribeRaceParticipationResponse {

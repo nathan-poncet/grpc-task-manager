@@ -148,11 +148,7 @@ export interface SubscribeRaceParticipationRequest {
      */
     id: string;
     /**
-     * @generated from protobuf field: string user_id = 2;
-     */
-    userId: string;
-    /**
-     * @generated from protobuf field: string car_id = 3;
+     * @generated from protobuf field: string car_id = 2;
      */
     carId: string;
 }
@@ -174,9 +170,9 @@ export interface UnSubscribeRaceParticipationRequest {
      */
     id: string;
     /**
-     * @generated from protobuf field: string user_id = 2;
+     * @generated from protobuf field: string car_id = 2;
      */
-    userId: string;
+    carId: string;
 }
 /**
  * @generated from protobuf message race.UnSubscribeRaceParticipationResponse
@@ -704,12 +700,11 @@ class SubscribeRaceParticipationRequest$Type extends MessageType<SubscribeRacePa
     constructor() {
         super("race.SubscribeRaceParticipationRequest", [
             { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "user_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "car_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 2, name: "car_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<SubscribeRaceParticipationRequest>): SubscribeRaceParticipationRequest {
-        const message = { id: "", userId: "", carId: "" };
+        const message = { id: "", carId: "" };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<SubscribeRaceParticipationRequest>(this, message, value);
@@ -723,10 +718,7 @@ class SubscribeRaceParticipationRequest$Type extends MessageType<SubscribeRacePa
                 case /* string id */ 1:
                     message.id = reader.string();
                     break;
-                case /* string user_id */ 2:
-                    message.userId = reader.string();
-                    break;
-                case /* string car_id */ 3:
+                case /* string car_id */ 2:
                     message.carId = reader.string();
                     break;
                 default:
@@ -744,12 +736,9 @@ class SubscribeRaceParticipationRequest$Type extends MessageType<SubscribeRacePa
         /* string id = 1; */
         if (message.id !== "")
             writer.tag(1, WireType.LengthDelimited).string(message.id);
-        /* string user_id = 2; */
-        if (message.userId !== "")
-            writer.tag(2, WireType.LengthDelimited).string(message.userId);
-        /* string car_id = 3; */
+        /* string car_id = 2; */
         if (message.carId !== "")
-            writer.tag(3, WireType.LengthDelimited).string(message.carId);
+            writer.tag(2, WireType.LengthDelimited).string(message.carId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -812,11 +801,11 @@ class UnSubscribeRaceParticipationRequest$Type extends MessageType<UnSubscribeRa
     constructor() {
         super("race.UnSubscribeRaceParticipationRequest", [
             { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "user_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 2, name: "car_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<UnSubscribeRaceParticipationRequest>): UnSubscribeRaceParticipationRequest {
-        const message = { id: "", userId: "" };
+        const message = { id: "", carId: "" };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<UnSubscribeRaceParticipationRequest>(this, message, value);
@@ -830,8 +819,8 @@ class UnSubscribeRaceParticipationRequest$Type extends MessageType<UnSubscribeRa
                 case /* string id */ 1:
                     message.id = reader.string();
                     break;
-                case /* string user_id */ 2:
-                    message.userId = reader.string();
+                case /* string car_id */ 2:
+                    message.carId = reader.string();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -848,9 +837,9 @@ class UnSubscribeRaceParticipationRequest$Type extends MessageType<UnSubscribeRa
         /* string id = 1; */
         if (message.id !== "")
             writer.tag(1, WireType.LengthDelimited).string(message.id);
-        /* string user_id = 2; */
-        if (message.userId !== "")
-            writer.tag(2, WireType.LengthDelimited).string(message.userId);
+        /* string car_id = 2; */
+        if (message.carId !== "")
+            writer.tag(2, WireType.LengthDelimited).string(message.carId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);

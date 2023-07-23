@@ -63,7 +63,7 @@ export class CarController {
     try {
       await this.validateDto(request, CreateCarDto);
       const nCar = {
-        driver_id: user.id,
+        owner_id: user.id,
         brand: request.brand,
         model: request.model,
       };

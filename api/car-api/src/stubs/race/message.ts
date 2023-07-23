@@ -6,11 +6,10 @@ export interface Race {
   id?: string | undefined;
   name?: string | undefined;
   date?: string | undefined;
-  participants?: Participant[] | undefined;
+  participations?: Participation[] | undefined;
 }
 
-export interface Participant {
-  driverId?: string | undefined;
+export interface Participation {
   carId?: string | undefined;
 }
 
