@@ -43,18 +43,13 @@ export class RaceService {
 
   async subscribeRaceParticipation(
     id: string,
-    userId: string,
     participation: IRaceParticipation,
   ) {
     const race = await this.find(id, '');
 
-    // No Participate Twice
-    if (
-      race.participations.some(
-        (participation) => participation.driver_id === userId,
-      )
-    ) {
-      throw Error("You can't participate twice");
+    // Check if car is already subscribed
+    if (race.participations.some((p) => p.car_id === participation.car_id)) {
+      throw new Error('Car is already subscribed');
     }
 
     race.participations = [...race.participations, participation];
@@ -64,11 +59,11 @@ export class RaceService {
     return race;
   }
 
-  async unSubscribeRaceParticipation(id: string, userId: string) {
+  async unSubscribeRaceParticipation(id: string, carId: string) {
     const race = await this.find(id, '');
 
     race.participations = race.participations.filter(
-      (participation) => participation.driver_id === userId,
+      (participation) => participation.car_id === carId,
     );
 
     await race.save();

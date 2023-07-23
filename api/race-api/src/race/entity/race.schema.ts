@@ -6,9 +6,6 @@ export type RaceDocument = HydratedDocument<Race>;
 @Schema()
 export class RaceParticipation {
   @Prop({ type: schema.Types.ObjectId })
-  driver_id: string;
-
-  @Prop({ type: schema.Types.ObjectId })
   car_id: string;
 }
 
@@ -25,7 +22,6 @@ export class Race {
 }
 
 export type IRaceParticipation = {
-  driver_id: string;
   car_id: string;
 };
 
