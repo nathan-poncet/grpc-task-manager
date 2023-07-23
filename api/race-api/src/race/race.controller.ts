@@ -100,7 +100,7 @@ export class RaceController {
   @Roles(UserRole.USER_ROLE_ADMIN)
   @GrpcMethod('RaceService')
   async UpdateRace(
-      @Payload request: UpdateRaceRequest,
+      @Payload() request: UpdateRaceRequest,
       @Headers() headers,
       @GRPCUser() user,
   ): Promise<UpdateRaceResponse> {
@@ -138,7 +138,7 @@ export class RaceController {
   @Roles(UserRole.USER_ROLE_ADMIN)
   @GrpcMethod('RaceService')
   async DeleteRace(
-      @Payload request: DeleteRaceRequest,
+      @Payload() request: DeleteRaceRequest,
       @Headers() headers,
       @GRPCUser() user,
   ): Promise<DeleteRaceResponse> {
