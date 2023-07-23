@@ -1,4 +1,4 @@
-import { Controller, Inject, Request, UseGuards } from '@nestjs/common';
+import { Controller, Headers, Inject, UseGuards } from '@nestjs/common';
 import { GrpcMethod, Payload, RpcException } from '@nestjs/microservices';
 import { status } from '@grpc/grpc-js';
 import { CarService } from './car.service';
@@ -20,11 +20,13 @@ import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
 import { CreateCarDto, UpdateCarDto } from './entity/car.dto';
 import { GRPCUser } from 'src/auth/user.decorator';
+import { UserService } from 'src/user/user.service';
 
 @Controller('car')
 export class CarController {
   constructor(
     private carService: CarService,
+    @Inject(UserService) private readonly userService: UserService,
     @Inject(WINSTON_MODULE_NEST_PROVIDER) private readonly logger: Logger,
   ) {}
 
@@ -58,6 +60,7 @@ export class CarController {
   @GrpcMethod('CarService')
   async CreateCar(
     @Payload() request: CreateCarRequest,
+    @Headers() headers,
     @GRPCUser() user,
   ): Promise<CreateCarResponse> {
     try {
@@ -67,6 +70,19 @@ export class CarController {
         brand: request.brand,
         model: request.model,
       };
+
+      // Verifiy user exists
+      const fetchedUser = await this.userService.findUser(
+        { id: user.id },
+        headers,
+      );
+
+      if (!fetchedUser) {
+        throw new RpcException({
+          message: 'User not found',
+          code: status.NOT_FOUND,
+        });
+      }
 
       const car = await this.carService.create(nCar);
       const pbCar = this.carService.toCarPb(car);
@@ -80,7 +96,8 @@ export class CarController {
 
   @GrpcMethod('CarService')
   async UpdateCar(
-    request: UpdateCarRequest,
+    @Payload() request: UpdateCarRequest,
+    @Headers() headers,
     @GRPCUser() user,
   ): Promise<UpdateCarResponse> {
     try {
@@ -90,6 +107,19 @@ export class CarController {
         brand: request.brand,
         model: request.model,
       };
+
+      // Verifiy user exists
+      const fetchedUser = await this.userService.findUser(
+        { id: user.id },
+        headers,
+      );
+
+      if (!fetchedUser) {
+        throw new RpcException({
+          message: 'User not found',
+          code: status.NOT_FOUND,
+        });
+      }
 
       const car = await this.carService.updateCar(request.id, user.id, nCar);
       const pbCar = this.carService.toCarPb(car);
@@ -104,10 +134,24 @@ export class CarController {
 
   @GrpcMethod('CarService')
   async DeleteCar(
-    request: DeleteCarRequest,
+    @Payload() request: DeleteCarRequest,
+    @Headers() headers,
     @GRPCUser() user,
   ): Promise<DeleteCarResponse> {
     try {
+      // Verifiy user exists
+      const fetchedUser = await this.userService.findUser(
+        { id: user.id },
+        headers,
+      );
+
+      if (!fetchedUser) {
+        throw new RpcException({
+          message: 'User not found',
+          code: status.NOT_FOUND,
+        });
+      }
+
       const car = await this.carService.deleteCar(request.id, user.id);
       const pbCar = this.carService.toCarPb(car);
 

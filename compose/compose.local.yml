@@ -82,6 +82,7 @@ services:
       - CAR_CERT=/certs/car.pem
       - CAR_KEY=/certs/car-key.pem
       - AUTH_API_URL=auth-api:4000
+      - USER_API_URL=user-api:4000
       - ROOT_CA=/certs/rootCA.pem
       - JAEGER_URL=http://tracing:14268/api/traces
       - USER_API_URL=user-api:4000
