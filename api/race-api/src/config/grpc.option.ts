@@ -101,7 +101,7 @@ export const carGrpcOptions = (cs: ConfigService): ClientProviderOptions => ({
     loader: {
       includeDirs: [join(__dirname, '../proto')],
     },
-    protoPath: [join(__dirname, '../proto/user/v1alpha/service.proto')],
+    protoPath: [join(__dirname, '../proto/car/service.proto')],
     keepalive: {
       // Send keepalive pings every 10 seconds, default is 2 hours.
       keepaliveTimeMs: 10 * 1000,
