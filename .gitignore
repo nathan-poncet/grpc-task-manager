@@ -149,5 +149,3 @@ dist
 .svelte-kit/
 package
 
-# Removing certificates
-local/certs/*.pem
