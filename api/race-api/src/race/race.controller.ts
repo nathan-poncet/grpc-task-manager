@@ -1,5 +1,5 @@
-import { Controller, Inject, UseGuards } from '@nestjs/common';
-import { GrpcMethod, RpcException } from '@nestjs/microservices';
+import { Controller, Inject, UseGuards, Headers } from '@nestjs/common';
+import { GrpcMethod, RpcException, Payload } from '@nestjs/microservices';
 import { status } from '@grpc/grpc-js';
 import { RaceService } from './race.service';
 import {
@@ -21,11 +21,14 @@ import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
 import { Roles } from 'src/auth/role.decorator';
 import { UserRole } from 'src/stubs/user/v1alpha/message';
+import { UserService } from "../user/user.service";
+import { GRPCUser } from 'src/auth/user.decorator';
 
 @Controller('race')
 export class RaceController {
   constructor(
     private raceService: RaceService,
+    @Inject(UserService) private readonly userService: UserService,
     @Inject(WINSTON_MODULE_NEST_PROVIDER) private readonly logger: Logger,
   ) {}
 
@@ -58,13 +61,30 @@ export class RaceController {
   @UseGuards(GrpcAuthGuard)
   @Roles(UserRole.USER_ROLE_ADMIN)
   @GrpcMethod('RaceService')
-  async CreateRace(request: CreateRaceRequest): Promise<CreateRaceResponse> {
+  async CreateRace(
+     @Payload() request: CreateRaceRequest,
+     @Headers() headers,
+     @GRPCUser() user,
+  ): Promise<CreateRaceResponse> {
     try {
       await this.validateDto(request, CreateRaceDto);
       const nRace = {
         name: request.name,
         date: new Date(request.date),
       };
+
+      // Verifiy user exists
+      const fetchedUser = await this.userService.findUser(
+          { id: user.id },
+          headers,
+      );
+
+      if (!fetchedUser) {
+        throw new RpcException({
+          message: 'User not found',
+          code: status.NOT_FOUND,
+        });
+      }
 
       const race = await this.raceService.create(nRace);
       const pbRace = this.raceService.toRacePb(race);
@@ -79,7 +99,11 @@ export class RaceController {
   @UseGuards(GrpcAuthGuard)
   @Roles(UserRole.USER_ROLE_ADMIN)
   @GrpcMethod('RaceService')
-  async UpdateRace(request: UpdateRaceRequest): Promise<UpdateRaceResponse> {
+  async UpdateRace(
+      @Payload request: UpdateRaceRequest,
+      @Headers() headers,
+      @GRPCUser() user,
+  ): Promise<UpdateRaceResponse> {
     try {
       const nRace = {
         name: request.name,
@@ -88,6 +112,19 @@ export class RaceController {
 
       const race = await this.raceService.updateRace({ id: request.id }, nRace);
       const pbRace = this.raceService.toRacePb(race);
+
+      // Verifiy user exists
+      const fetchedUser = await this.userService.findUser(
+          { id: user.id },
+          headers,
+      );
+
+      if (!fetchedUser) {
+        throw new RpcException({
+          message: 'User not found',
+          code: status.NOT_FOUND,
+        });
+      }
 
       return { race: pbRace };
     } catch (error) {
@@ -100,8 +137,25 @@ export class RaceController {
   @UseGuards(GrpcAuthGuard)
   @Roles(UserRole.USER_ROLE_ADMIN)
   @GrpcMethod('RaceService')
-  async DeleteRace(request: DeleteRaceRequest): Promise<DeleteRaceResponse> {
+  async DeleteRace(
+      @Payload request: DeleteRaceRequest,
+      @Headers() headers,
+      @GRPCUser() user,
+  ): Promise<DeleteRaceResponse> {
     try {
+      // Verifiy user exists
+      const fetchedUser = await this.userService.findUser(
+          { id: user.id },
+          headers,
+      );
+
+      if (!fetchedUser) {
+        throw new RpcException({
+          message: 'User not found',
+          code: status.NOT_FOUND,
+        });
+      }
+
       const race = await this.raceService.deleteRace(request.id);
       const pbRace = this.raceService.toRacePb(race);
 
