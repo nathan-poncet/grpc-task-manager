@@ -9,6 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import { WinstonModule } from 'nest-winston';
 import winstonConfig from './config/winston.config';
 import { CarModule } from './car/car.module';
+import { UserModule } from './user/user.module';
 
 const envSchema = Joi.object({
   MONGO_URL: Joi.string().required(),
@@ -29,6 +30,7 @@ const envSchema = Joi.object({
   }),
   JAEGER_URL: Joi.string().required(),
   AUTH_API_URL: Joi.string().required(),
+  USER_API_URL: Joi.string().required(),
 });
 
 @Module({
@@ -50,6 +52,7 @@ const envSchema = Joi.object({
       useFactory: (cs: ConfigService) => grpcOption(cs),
     }),
     AuthModule,
+    UserModule,
     HealthModule,
     CarModule,
   ],
