@@ -73,6 +73,6 @@ docker compose up -d mariadb mongo tracing
 ```shell
 docker compose up -d 
 ```
-## Install 4 APIs and run migrations
+## Install User and Auth API and run migrations
 - [User API](api/user-api/README.md) documentation
 - [Auth API](api/auth-api/README.md) documentation
