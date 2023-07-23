@@ -1,9 +1,10 @@
 import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { IRaceParticipation, Race, RaceDocument } from './entity/race.schema';
+import { Race, RaceDocument } from './entity/race.schema';
 import { CreateRaceDto, UpdateRaceDto } from './entity/race.dto';
 import { Race as RacePb } from '../stubs/race/message';
+import { ObjectId } from 'mongodb';
 @Injectable()
 export class RaceService {
   constructor(@InjectModel(Race.name) private raceModel: Model<RaceDocument>) {}
@@ -13,6 +14,9 @@ export class RaceService {
       id: race._id.toString(),
       name: race.name,
       date: race.date.toISOString(),
+      participations: race.participations.map((p) => ({
+        carId: p.car_id.toString(),
+      })),
     };
   }
 
@@ -41,18 +45,18 @@ export class RaceService {
     return race;
   }
 
-  async subscribeRaceParticipation(
-    id: string,
-    participation: IRaceParticipation,
-  ) {
+  async subscribeRaceParticipation(id: string, carId: string) {
     const race = await this.find(id, '');
 
     // Check if car is already subscribed
-    if (race.participations.some((p) => p.car_id === participation.car_id)) {
+    if (race.participations.some((p) => p.car_id.equals(carId))) {
       throw new Error('Car is already subscribed');
     }
 
-    race.participations = [...race.participations, participation];
+    race.participations = [
+      ...race.participations,
+      { car_id: new ObjectId(carId) },
+    ];
 
     await race.save();
 
@@ -62,8 +66,8 @@ export class RaceService {
   async unSubscribeRaceParticipation(id: string, carId: string) {
     const race = await this.find(id, '');
 
-    race.participations = race.participations.filter(
-      (participation) => participation.car_id === carId,
+    race.participations = race.participations.filter((participation) =>
+      participation.car_id.equals(carId),
     );
 
     await race.save();

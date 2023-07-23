@@ -1,4 +1,5 @@
-import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { ObjectId } from 'mongodb';
 import { HydratedDocument, Schema as schema } from 'mongoose';
 
 export type RaceDocument = HydratedDocument<Race>;
@@ -6,7 +7,7 @@ export type RaceDocument = HydratedDocument<Race>;
 @Schema()
 export class RaceParticipation {
   @Prop({ type: schema.Types.ObjectId })
-  car_id: string;
+  car_id: ObjectId;
 }
 
 @Schema()
@@ -22,7 +23,7 @@ export class Race {
 }
 
 export type IRaceParticipation = {
-  car_id: string;
+  car_id: ObjectId;
 };
 
 const RaceSchema = SchemaFactory.createForClass(Race);
