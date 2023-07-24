@@ -35,18 +35,18 @@ export class RaceService {
     return this.raceModel.find().exec();
   }
 
-  async find(id: string | number, name: string) {
-    const race = await this.raceModel.findOne({ id, name });
+  async find(id: string) {
+    const race = await this.raceModel.findOne({ id });
 
     if (!race) {
-      throw new Error(`race with id ${id} or name ${name} not found`);
+      throw new Error(`race with id ${id} not found`);
     }
 
     return race;
   }
 
   async subscribeRaceParticipation(id: string, carId: string) {
-    const race = await this.find(id, '');
+    const race = await this.find(id);
 
     // Check if car is already subscribed
     if (race.participations.some((p) => p.car_id.equals(carId))) {
@@ -64,10 +64,10 @@ export class RaceService {
   }
 
   async unSubscribeRaceParticipation(id: string, carId: string) {
-    const race = await this.find(id, '');
+    const race = await this.find(id);
 
-    race.participations = race.participations.filter((participation) =>
-      participation.car_id.equals(carId),
+    race.participations = race.participations.filter(
+      (participation) => !participation.car_id.equals(carId),
     );
 
     await race.save();

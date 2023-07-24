@@ -148,4 +148,5 @@ dist
 
 .svelte-kit/
 package
+local/certs/*.pem
 

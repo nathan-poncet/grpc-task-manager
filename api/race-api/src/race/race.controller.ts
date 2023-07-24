@@ -35,7 +35,7 @@ export class RaceController {
   @GrpcMethod('RaceService')
   async GetRace(request: GetRaceRequest): Promise<GetRaceResponse> {
     try {
-      const race = await this.raceService.find(request.id, request.name);
+      const race = await this.raceService.find(request.id);
 
       const pbRace = this.raceService.toRacePb(race);
 
